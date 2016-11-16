@@ -3,14 +3,13 @@ package org.example;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import com.gemstone.gemfire.cache.Cache;
-import com.gemstone.gemfire.cache.CacheLoader;
-import com.gemstone.gemfire.cache.CacheLoaderException;
-import com.gemstone.gemfire.cache.LoaderHelper;
-import com.gemstone.gemfire.cache.RegionAttributes;
-import com.gemstone.gemfire.cache.server.CacheServer;
-import com.gemstone.gemfire.internal.DistributionLocator;
-
+import org.apache.geode.cache.Cache;
+import org.apache.geode.cache.CacheLoader;
+import org.apache.geode.cache.CacheLoaderException;
+import org.apache.geode.cache.LoaderHelper;
+import org.apache.geode.cache.RegionAttributes;
+import org.apache.geode.cache.server.CacheServer;
+import org.apache.geode.internal.DistributionLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,12 +31,12 @@ import org.springframework.util.StringUtils;
  * @see org.springframework.boot.SpringApplication
  * @see org.springframework.boot.autoconfigure.SpringBootApplication
  * @see org.springframework.context.annotation.Bean
- * @see com.gemstone.gemfire.cache.Cache
- * @see com.gemstone.gemfire.cache.server.CacheServer
+ * @see org.apache.geode.cache.Cache
+ * @see org.apache.geode.cache.server.CacheServer
  * @since 1.0.0
  */
 @SpringBootApplication
-@SuppressWarnings("unused")
+@SuppressWarnings("all")
 public class SpringBootGemFireServer {
 
 	protected static final int DEFAULT_CACHE_SERVER_PORT = CacheServer.DEFAULT_PORT;
