@@ -10,8 +10,7 @@ import org.apache.geode.cache.LoaderHelper;
 import org.apache.geode.cache.RegionAttributes;
 import org.apache.geode.cache.server.CacheServer;
 import org.apache.geode.internal.DistributionLocator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -23,6 +22,9 @@ import org.springframework.data.gemfire.RegionAttributesFactoryBean;
 import org.springframework.data.gemfire.server.CacheServerFactoryBean;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A Spring Boot application bootstrapping a Pivotal GemFire Server in the JVM process.
@@ -57,9 +59,9 @@ public class SpringBootGemFireServer {
 
 	@Bean
 	Properties gemfireProperties(
-			@Value("${spring.gemfire.log-level:"+DEFAULT_LOG_LEVEL+"}") String logLevel,
-			@Value("${spring.gemfire.locators:localhost["+DEFAULT_LOCATOR_PORT+"]}") String locators,
-			@Value("${spring.gemfire.manager.port:"+DEFAULT_MANAGER_PORT+"}") int managerPort,
+			@Value("${spring.gemfire.log-level:" + DEFAULT_LOG_LEVEL + "}") String logLevel,
+			@Value("${spring.gemfire.locators:localhost[" + DEFAULT_LOCATOR_PORT + "]}") String locators,
+			@Value("${spring.gemfire.manager.port:" + DEFAULT_MANAGER_PORT + "}") int managerPort,
 			@Value("${spring.gemfire.manager.start:false}") boolean jmxManagerStart,
 			@Value("${spring.gemfire.start-locator}") String startLocator) {
 
@@ -84,6 +86,7 @@ public class SpringBootGemFireServer {
 
 	@Bean
 	CacheFactoryBean gemfireCache(@Qualifier("gemfireProperties") Properties gemfireProperties) {
+
 		CacheFactoryBean gemfireCache = new CacheFactoryBean();
 
 		gemfireCache.setClose(true);
@@ -96,7 +99,7 @@ public class SpringBootGemFireServer {
 	CacheServerFactoryBean gemfireCacheServer(Cache gemfireCache,
 			@Value("${spring.gemfire.cache.server.bind-address:localhost}") String bindAddress,
 			@Value("${spring.gemfire.cache.server.hostname-for-clients:localhost}") String hostnameForClients,
-			@Value("${spring.gemfire.cache.server.port:"+DEFAULT_CACHE_SERVER_PORT+"}") int port) {
+			@Value("${spring.gemfire.cache.server.port:" + DEFAULT_CACHE_SERVER_PORT + "}") int port) {
 
 		CacheServerFactoryBean gemfireCacheServer = new CacheServerFactoryBean();
 
@@ -128,6 +131,7 @@ public class SpringBootGemFireServer {
 	@Bean
 	@SuppressWarnings("unchecked")
 	RegionAttributesFactoryBean factorialRegionAttributes() {
+
 		RegionAttributesFactoryBean factorialRegionAttributes = new RegionAttributesFactoryBean();
 
 		factorialRegionAttributes.setKeyConstraint(Long.class);
@@ -137,9 +141,12 @@ public class SpringBootGemFireServer {
 	}
 
 	CacheLoader<Long, Long> factorialsCacheLoader() {
+
 		return new CacheLoader<Long, Long>() {
+
 			@Override
 			public Long load(LoaderHelper<Long, Long> helper) throws CacheLoaderException {
+
 				Long number = helper.getKey();
 
 				Assert.notNull(number, "Number must not be null");
