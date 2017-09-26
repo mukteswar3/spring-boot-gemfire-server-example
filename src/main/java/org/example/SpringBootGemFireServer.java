@@ -3,14 +3,6 @@ package org.example;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.geode.cache.Cache;
-import org.apache.geode.cache.CacheLoader;
-import org.apache.geode.cache.CacheLoaderException;
-import org.apache.geode.cache.LoaderHelper;
-import org.apache.geode.cache.RegionAttributes;
-import org.apache.geode.cache.server.CacheServer;
-import org.apache.geode.internal.DistributionLocator;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -23,6 +15,13 @@ import org.springframework.data.gemfire.server.CacheServerFactoryBean;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import org.apache.geode.cache.Cache;
+import org.apache.geode.cache.CacheLoader;
+import org.apache.geode.cache.CacheLoaderException;
+import org.apache.geode.cache.LoaderHelper;
+import org.apache.geode.cache.RegionAttributes;
+import org.apache.geode.cache.server.CacheServer;
+import org.apache.geode.internal.DistributionLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,9 +62,13 @@ public class SpringBootGemFireServer {
 			@Value("${spring.gemfire.locators:localhost[" + DEFAULT_LOCATOR_PORT + "]}") String locators,
 			@Value("${spring.gemfire.manager.port:" + DEFAULT_MANAGER_PORT + "}") int managerPort,
 			@Value("${spring.gemfire.manager.start:false}") boolean jmxManagerStart,
-			@Value("${spring.gemfire.start-locator}") String startLocator) {
+			@Value("${spring.gemfire.start-locator:}") String startLocator) {
 
 		logger.warn("spring.gemfire.log-level is [{}]", logLevel);
+		logger.warn("spring.gemfire.locators is [{}]", locators);
+		logger.warn("spring.gemfire.manager.port is [{}]", managerPort);
+		logger.warn("spring.gemfire.manager.start is [{}]", jmxManagerStart);
+		logger.warn("spring.gemfire.start-locator is [{}]", startLocator);
 
 		Properties gemfireProperties = new Properties();
 
@@ -76,6 +79,7 @@ public class SpringBootGemFireServer {
 		gemfireProperties.setProperty("jmx-manager", "true");
 		gemfireProperties.setProperty("jmx-manager-port", String.valueOf(managerPort));
 		gemfireProperties.setProperty("jmx-manager-start", String.valueOf(jmxManagerStart));
+		gemfireProperties.setProperty("groups", "Spring");
 
 		if (StringUtils.hasText(startLocator)) {
 			gemfireProperties.setProperty("start-locator", startLocator);
@@ -91,6 +95,7 @@ public class SpringBootGemFireServer {
 
 		gemfireCache.setClose(true);
 		gemfireCache.setProperties(gemfireProperties);
+		gemfireCache.setUseClusterConfiguration(true);
 
 		return gemfireCache;
 	}
