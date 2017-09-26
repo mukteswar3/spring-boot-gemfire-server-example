@@ -26,6 +26,7 @@ repositories {
 
 dependencies {
     compile "org.assertj:assertj-core:$assertjVersion"
+    compile("org.springframework.data:spring-data-geode:$springDataGeodeVersion")
     compile("org.springframework.boot:spring-boot-starter:$springBootVersion") {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
